@@ -27,6 +27,8 @@ class _YaoAttendanceState extends State<YaoAttendance> {
   String waktuMasuk = '--/--';
   String waktuPulang = '--/--';
   Position? currentPosition;
+  String statusAbsensi = '';
+  bool isButtonDisabled = false;
 
   String token = '';
   late SharedPreferences prefs;
@@ -145,8 +147,11 @@ class _YaoAttendanceState extends State<YaoAttendance> {
         );
 
         if (response.statusCode == 200) {
+          final responseData = json.decode(response.body);
+          final pesan = responseData['status'];
           setState(() {
             waktuMasuk = jam;
+            statusAbsensi = pesan;
           });
           _showSuccessDialog("Anda Berhasil Melakukan Absen di $namaSekolah",
               "Terimakasih, Semangat bekerja");
@@ -314,9 +319,10 @@ class _YaoAttendanceState extends State<YaoAttendance> {
                 Container(
                   margin: const EdgeInsets.only(top: 30.0),
                   alignment: Alignment.centerLeft,
-                  child: const Text(
-                    'Today Status',
-                    style: TextStyle(
+                  child: Text(
+                    'Status Absen: $statusAbsensi'.toLowerCase(),
+                    style: const TextStyle(
+                      color: Colors.grey,
                       fontSize: 20.0,
                     ),
                   ),
@@ -415,9 +421,23 @@ class _YaoAttendanceState extends State<YaoAttendance> {
                           outerColor: Colors.white,
                           innerColor: Colors.green,
                           key: key,
-                          onSubmit: () {
-                            absenMasuk();
-                            key.currentState!.reset();
+                          onSubmit: () async {
+                            if (!isButtonDisabled) {
+                              // Nonaktifkan tombol
+                              setState(() {
+                                isButtonDisabled = true;
+                              });
+
+                              // Panggil metode absenMasuk
+                              await absenMasuk();
+
+                              // Aktifkan tombol kembali setelah selesai
+                              setState(() {
+                                key.currentState!.deactivate();
+                              });
+
+                              key.currentState!.reset();
+                            }
                           },
                         );
                       }),

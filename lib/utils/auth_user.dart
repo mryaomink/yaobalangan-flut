@@ -8,7 +8,8 @@ class AuthUser {
     final token = prefs.getString('yaotoken');
 
     final response = await http.get(
-      Uri.parse('http://192.168.148.86:8000/api/guru'),
+      Uri.parse(
+          'https://bukutamutes.banjarbarukota.go.id/laravel/public/api/guru'),
       headers: {
         'Authorization': 'Bearer $token',
       },

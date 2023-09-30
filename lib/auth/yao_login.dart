@@ -146,7 +146,7 @@ class _YaoLoginState extends State<YaoLogin> {
                     if (_formKey.currentState!.validate()) {
                       final email = _emailController.text;
                       final password = _passwordController.text;
-                      const url = 'http://192.168.148.86:8000/api/login';
+                      const url = 'http://10.160.250.169:8000/api/login';
 
                       final response = await http.post(
                         Uri.parse(url),

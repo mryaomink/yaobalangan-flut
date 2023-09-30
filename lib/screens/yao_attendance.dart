@@ -131,7 +131,7 @@ class _YaoAttendanceState extends State<YaoAttendance> {
       };
 
       // Endpoint URL di backend Anda
-      const apiUrl = 'http://192.168.148.86:8000/api/absensi/masuk';
+      const apiUrl = 'http://10.160.250.169:8000/api/absensi/masuk';
 
       final headers = <String, String>{
         'Content-Type': 'application/json',
@@ -195,7 +195,7 @@ class _YaoAttendanceState extends State<YaoAttendance> {
       };
 
       // Endpoint URL di backend Anda
-      const apiUrl = 'http://192.168.148.86:8000/api/absensi/pulang';
+      const apiUrl = 'http://10.160.250.169:8000/api/absensi/pulang';
 
       final headers = <String, String>{
         'Content-Type': 'application/json',
@@ -237,11 +237,12 @@ class _YaoAttendanceState extends State<YaoAttendance> {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('yaotoken');
 
-    const url = 'http://192.168.148.86:8000/api/guru-info';
+    const url = 'http://10.160.250.169:8000/api/guru-info/';
 
     final response = await http.get(
       Uri.parse(url),
       headers: {
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
       },
     );
